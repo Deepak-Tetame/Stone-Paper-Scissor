@@ -1,0 +1,191 @@
+import time
+from tkinter import *
+from PIL import Image, ImageTk
+import tkinter.messagebox as msg
+import random
+from pygame import mixer
+
+num = 0
+won = 0
+lose = 0
+draw = 0
+
+
+def a():
+    global num
+    global won
+    global lose
+    global draw
+    l1 = ["1", "2", "3"]
+    rand = random.choice(l1)
+    if rand == "1":
+        scvalue.set("[ MATCH DRAW ] \n YOU choose stone and CPU choose stone")
+        screen.update()
+        draw += 1
+    elif rand == "2":
+        scvalue.set("[ YOU LOSE ] \n YOU choose stone and CPU choose paper")
+        screen.update()
+        lose += 1
+    elif rand == "3":
+        scvalue.set("[ YOU WON ] \n YOU choose stone and CPU choose scissor")
+        screen.update()
+        won += 1
+    num += 1
+    if num == 10:
+        f = open("SPS_DATABASE.txt", "a")
+        if won > (lose and draw):
+            f.write("\nIn First Round Player Won")
+        elif lose > (won and draw):
+            f.write("\nIn First Round CPU Won")
+        elif draw > (won and lose):
+            f.write("\ntournament Draw")
+        scvalue.set("WORKING ON RESULT PLEASE WAIT : ")
+        screen.update()
+        time.sleep(3)
+        scvalue.set(f"You Won {won} times , Lose {lose} times and Match Draw {draw} times")
+        newgame()
+
+
+def b():
+    global num
+    global won
+    global lose
+    global draw
+    l1 = ["1", "2", "3"]
+    rand = random.choice(l1)
+    if rand == "1":
+        scvalue.set("[ YOU WON ] \n YOU choose paper CPU choose stone")
+        screen.update()
+        won += 1
+    elif rand == "2":
+        scvalue.set("[ MATCH DRAW ] \n YOU both choose paper")
+        screen.update()
+        draw += 1
+    elif rand == "3":
+        scvalue.set("[ YOU LOSE ] \n YOU choose paper and CPU choose scissor")
+        screen.update()
+        lose += 1
+    num += 1
+    if num == 10:
+        f = open("SPS_DATABASE.txt", "a")
+        if won > (lose and draw):
+            f.write("\nIn First Round Player Won")
+        elif lose > (won and draw):
+            f.write("\nIn First Round CPU Won")
+        elif draw > (won and lose):
+            f.write("\ntournament Draw")
+        scvalue.set("WORKING ON RESULT PLEASE WAIT : ")
+        screen.update()
+        time.sleep(3)
+        scvalue.set(f"You Won {won} times , Lose {lose} times and Match Draw {draw} times")
+        newgame()
+
+
+def c():
+    global num
+    global won
+    global lose
+    global draw
+    l1 = ["1", "2", "3"]
+    rand = random.choice(l1)
+    if rand == "1":
+        scvalue.set("[ YOU LOSE ] \n YOU choose scissor and CPU choose stone")
+        screen.update()
+        lose += 1
+    elif rand == "2":
+        scvalue.set("[ YOU WON ] \n YOU choose scissor and CPU choose paper")
+        screen.update()
+        won += 1
+    elif rand == "3":
+        scvalue.set("[ MATCH DRAW ] \n YOU both choose scissor")
+        screen.update()
+        draw += 1
+    num += 1
+    if num == 10:
+        f = open("SPS_DATABASE.txt", "a")
+        if won > (lose and draw):
+            f.write("\nIn First Round Player Won")
+        elif lose > (won and draw):
+            f.write("\nIn First Round CPU Won")
+        elif draw > (won and lose):
+            f.write("\ntournament Draw")
+        scvalue.set("WORKING ON RESULT PLEASE WAIT : ")
+        screen.update()
+        time.sleep(3)
+        scvalue.set(f"You Won {won} times , Lose {lose} times and Match Draw {draw} times")
+        newgame()
+
+
+def newgame():
+    msg.showinfo("WARNING", "YOU'LL LOSE YOUR ALL SAVE GAMES IF YOU SELECT NEW GAME")
+    root.title("New Game")
+    scvalue.set("Result Will Show Here...")
+    screen.update()
+
+
+def tournament():
+    global num
+    root.title("TOURNAMENT")
+    scvalue.set("WELCOME TO SPS TOURNAMENT \n ")
+    screen.update()
+    msg.showinfo("TOURNAMENT",
+                 "IN THIS TOURNAMENT YOU HAVE TO PLAY THIS GAME FOR 10 TIMES THEN WE'LL DECIDE IF YOU ARE "
+                 "WON OR LOSE SO ENJOY THE GAME AND BEST OF LUCK")
+    num = 0
+
+
+def about():
+    msg.showinfo("About", "THIS GAME HAS BEEN CREATED BY -- \n"
+                          " DEEPAK TETAME \n")
+
+
+root = Tk()
+root.geometry("500x500")
+root.configure(bg="black")
+root.title("SPS")
+root.wm_iconbitmap("joystick_game_3819.ico")
+
+menubar = Menu(root)
+
+mainmenu = Menu(menubar, tearoff=0)
+mainmenu.add_command(label="New Game", command=newgame)
+mainmenu.add_command(label="Play Tournament", command=tournament)
+mainmenu.add_separator()
+mainmenu.add_command(label="Quit Game", command=quit)
+menubar.add_cascade(menu=mainmenu, label="More")
+
+mainmenu1 = Menu(menubar, tearoff=0)
+mainmenu1.add_command(label="About Game", command=about)
+menubar.add_cascade(menu=mainmenu1, label="Help")
+
+root.config(menu=menubar)
+
+label1 = Label(root, text="**STONE PAPER SCISSOR**", bg="orange", font="sail 20 bold", borderwidth=10, relief=SUNKEN)
+label1.pack(fill=X, pady=13)
+
+scvalue = StringVar()
+scvalue.set("Result Will Show Here...")
+
+screen = Entry(root, textvar=scvalue, font="sail 13 bold", fg="orange", bg="black")
+screen.pack(fill=X, ipady=20, pady=20)
+
+image = Image.open("tryingimg.png")
+photo = ImageTk.PhotoImage(image)
+label = Label(image=photo)
+label.pack()
+
+f1 = Frame(root, bg="orange", borderwidth=15, relief=SUNKEN)
+f1.pack(fill=X, pady=20)
+
+b1 = Button(f1, text="stone", font=" sail 20 bold", command=a, bg="black", borderwidth=10, fg="silver", relief=RAISED)
+b1.pack(side=LEFT, padx=20)
+b2 = Button(f1, text="paper", font=" sail 20 bold", command=b, bg="black", borderwidth=10, fg="silver", relief=RAISED)
+b2.pack(side=LEFT, padx=20)
+b3 = Button(f1, text="scissor", font=" sail 20 bold", command=c, bg="black", borderwidth=10, fg="silver", relief=RAISED)
+b3.pack(side=LEFT, padx=20)
+
+mixer.init()
+mixer.music.load("Loyalty_Freak_Music_-_04_-_Cant_Stop_My_Feet_.mp3")
+mixer.music.play()
+
+root.mainloop()
